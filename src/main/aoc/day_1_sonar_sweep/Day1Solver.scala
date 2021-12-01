@@ -2,7 +2,7 @@ package aoc.day_1_sonar_sweep
 
 import aoc.file_loader.AOCLoader
 
-object solver {
+object Day1Solver {
   def main(args: Array[String]): Unit = {
     val lines = AOCLoader.loadActual("day_1_sonar_sweep")
     val nums = lines.map(_.toInt)
