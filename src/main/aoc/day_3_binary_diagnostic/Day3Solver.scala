@@ -6,7 +6,6 @@ object Day3Solver {
 
   def main(args: Array[String]): Unit = {
     val lines = AOCLoader.loadActual("day_3_binary_diagnostic")
-    //    val lines = AOCLoader.loadExample("day_3_binary_diagnostic")
     val intGrid = AOCLoader.toGrid(lines, "").map(_.map(_.toInt))
 
     solvePart1(intGrid)
@@ -14,15 +13,13 @@ object Day3Solver {
   }
 
   def solvePart1(intGrid: List[List[Int]]): Unit = {
+    val mostIntGrid = intGrid.transpose
+    val len = intGrid.length
 
-    val directionalGrid = intGrid.map(_.map(x => x * 2 - 1))
-    val sumDirectionalGrid = directionalGrid.reduce((a, b) => a.zip(b).map(x => x._1 + x._2))
+    val digits = mostIntGrid.map(a => Math.round(a.sum.toFloat / len))
 
-    val mostGrid = sumDirectionalGrid.map(x => x > 0)
-    val gamma = mostGrid.foldLeft(0)((n, b) => n * 2 + (if (b) 1 else 0))
-
-    val leastGrid = sumDirectionalGrid.map(x => x <= 0)
-    val epsilon = leastGrid.foldLeft(0)((n, b) => n * 2 + (if (b) 1 else 0))
+    val gamma = digits.foldLeft(0)((n, b) => n * 2 + b)
+    val epsilon = digits.foldLeft(0)((n, b) => n * 2 + (~b & 1))
 
     println("Part 1: " + gamma * epsilon)
   }
