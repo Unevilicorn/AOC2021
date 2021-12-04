@@ -62,8 +62,8 @@ object Day4Solver {
           if (markRows(j)(row) == 5 || markCols(j)(col) == 5) {
             if (newGrids.length == 1)
               return (newGrids(j).sum + markRows(j).sum) * i
-            else
-              newGrids = newGrids.take(j) ++ newGrids.drop(j + 1)
+
+            newGrids = newGrids.take(j) ++ newGrids.drop(j + 1)
             markRows = markRows.take(j) ++ markRows.drop(j + 1)
             markCols = markCols.take(j) ++ markCols.drop(j + 1)
 
