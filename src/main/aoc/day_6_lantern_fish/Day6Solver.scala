@@ -6,32 +6,35 @@ import scala.collection.mutable
 
 object Day6Solver {
 
-  private val hashMap = new mutable.HashMap[(Int, Int), Long]()
+  private val hashMap = new mutable.HashMap[(Int, Int), BigInt]()
 
   def main(args: Array[String]): Unit = {
     val lines = AOCLoader.loadActual("day_6_lantern_fish")
 
     val timers = lines.head.split(",").map(_.toInt)
 
-    println(solvePart1(timers))
-    println(solvePart2(timers))
+    presetHashmap(114514)
 
+    println(timers.map(t => recurrent(80, t)).sum)
+    println(timers.map(t => recurrent(256, t)).sum)
+    println(timers.map(t => recurrent(114514, t)).sum)
   }
 
-  def recurrent(time: Int, offset: Int): Long = {
+  def presetHashmap(time: Int): Unit = {
+    for (t <- 0 to time){
+      List(6, 8).foreach(c => hashMap.getOrElseUpdate((t, c), {
+        if (t >= c + 1)
+          hashMap.getOrElse((t - c - 1, 6), 1:BigInt) + hashMap.getOrElse((t - c - 1, 8), 1:BigInt)
+        else
+          1
+      }))
+    }
+  }
+
+  def recurrent(time: Int, offset: Int): BigInt = {
     hashMap.getOrElseUpdate((time, offset), {
       if (time < offset + 1) return 1
-      1 + List.range(0, Math.ceil((time - offset - 1) / 7.0).toInt)
-        .map(i => recurrent((time - offset - 1) - 7 * i, 8)).sum
+      recurrent(time - offset - 1, 6) + recurrent(time - offset - 1, 8)
     })
   }
-
-  def solvePart1(timers: Array[Int]): Long = {
-    timers.map(t => recurrent(81, t)).sum
-  }
-
-  def solvePart2(timers: Array[Int]): Long = {
-    timers.map(t => recurrent(257, t)).sum
-  }
-
 }
