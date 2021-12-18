@@ -10,13 +10,10 @@ object Day17Solver {
 
   def main(args: Array[String]): Unit = {
     val lines = AOCLoader.loadActual("day_17_trick_shot")
-    //    val lines = AOCLoader.loadExample("day_17_trick_shot")
 
     val stringPos = lines.head.split(": ")(1).split(", ").map(_.split("=")(1).split("\\.\\."))
     val intPos = stringPos.map(_.map(_.toInt))
     val target = Rect(Pos(intPos(0)(0), intPos(1)(1)), Pos(intPos(0)(1), intPos(1)(0)))
-    println(target)
-
 
     println(solvePart1(target))
     println(solvePart2(target))
